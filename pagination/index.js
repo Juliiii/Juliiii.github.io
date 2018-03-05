@@ -101,25 +101,13 @@
           this.$option.current = length;
         }
 
-        if (!simple) {
-          if(this.length <= 6) {
-            for (let i = 1; i <= this.length; i++) {
-              this.items.push(i);
-            }
-          } else {
-            for (let i = 1; i <= 6; i++) {
-              if (i === 5) {
-                this.items.push('...');
-              } else if (i === 6) {
-                this.items.push(this.length);
-              } else {
-                this.items.push(i);
-              }
-            }
-          }
-        }
+        this.changeData();
       },
 
+      /**
+       * 改变items，然后重新渲染
+       * 
+       */
       changeData() {
         let {
           current
@@ -192,25 +180,38 @@
           const wrapper = document.createElement('div');
           const textNode = document.createTextNode(` ${current} / ${this.length} `);
 
-          this.bindEvent(previous, 'mouseover', onMouseOver);
-          this.bindEvent(previous, 'mouseleave', onMouseLeave);
-          this.bindEvent(previous, 'click', () => {
-            if (current > 1) {
-              this.$option.current--;
-              this.render();
-              listeners.emit('onPageChange', this.$option.current);
-            }
-          });
-          this.bindEvent(next, 'mouseover', onMouseOver);
-          this.bindEvent(next, 'mouseleave', onMouseLeave);
-          this.bindEvent(next, 'click', () => {
-            if (current < this.length) {
-              this.$option.current++;
-              this.render();
-              listeners.emit('onPageChange', this.$option.current);
+          this.bindEvent(wrapper, 'mouseover', (e) => {
+            const event = e || window.event;
+            const target = e.target || e.srcElement;
+
+            if (target.innerText === '<' ||
+              target.innerText === '>'
+            ) {
+              onMouseOver.call(target);
             }
           });
 
+          this.bindEvent(wrapper, 'click', (e) => {
+            const event = e || window.event;
+            const target = e.target || e.srcElement;
+            
+            if (target.innerText === '<') {
+              if (current > 1) {
+                this.$option.current--;
+                this.render();
+                listeners.emit('onPageChange', this.$option.current);
+              }              
+            } else if (target.innerText === '>') {
+              if (current < this.length) {
+                this.$option.current++;
+                this.render();
+                listeners.emit('onPageChange', this.$option.current);
+              }              
+            }
+          });
+          
+          this.bindEvent(previous, 'mouseleave', onMouseLeave);
+          this.bindEvent(next, 'mouseleave', onMouseLeave);
 
           wrapper.appendChild(previous);
           wrapper.appendChild(textNode);
@@ -254,11 +255,12 @@
             node.style.borderRadius = '3px';
           });
 
-          childNodes.forEach(node => {
-            const innerText = node.innerText;
-            if (innerText === '···') return;
-
-            function onClick(innerText) {
+          this.bindEvent(ul, 'click', (e) => {
+            const event = e || window.event;
+            const target = e.target || e.srcElement;
+            const innerText = target.innerText;
+            const tagName = target.tagName.toLowerCase();
+            if (tagName === 'li') {
               if (innerText === '<') {
                 if (current > 1) {
                   this.$option.current--;
@@ -271,18 +273,31 @@
                   this.changeData();
                   this.render();
                 }
-              } else {
+              } else if (innerText !== '···') {
                 this.$option.current = Number(innerText);
                 this.changeData();
                 this.render();
               }
               listeners.emit('onPageChange', this.$option.current);
-            }
+            }            
+          });
 
-            this.bindEvent(node, 'click', onClick.bind(this, innerText));
-            this.bindEvent(node, 'mouseover', onMouseOver);
+          this.bindEvent(ul, 'mouseover', (e) => {
+            const event = e || window.event;
+            const target = e.target || e.srcElement;
+            const innerText = target.innerText;
+            const tagName = target.tagName.toLowerCase();
+            if (tagName === 'li') {
+              if (innerText === '···') return;
+              onMouseOver.call(target);
+            }
+          });
+
+          childNodes.forEach(node => {
+            const innerText = node.innerText;
+            if (innerText === '···') return;
             this.bindEvent(node, 'mouseleave', onMouseLeave);
-          })
+          });
 
           this.$child = ul;
           documentFragment.appendChild(ul);
@@ -293,6 +308,13 @@
       },
 
 
+      /**
+       * 绑定事件
+       * 
+       * @param {any} dom 
+       * @param {any} type 
+       * @param {any} cb 
+       */
       bindEvent(dom, type, cb) {
         if (dom.attachEvent) {
           dom.addtachEvent(`on${type}`, cb);
@@ -333,19 +355,6 @@
     listeners.add(type, cb);
   }
 
-
-  /**
-   * 
-   * 传入新的配置，更新整个组件
-   * 
-   * @param {any} option 配置
-   */  
-  Pagination.prototype.updateByOption = function(option) {
-    _.clean
-  }
-
   window.Pagination = Pagination;
-
-
 
 })(window);
