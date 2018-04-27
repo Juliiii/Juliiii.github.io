@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>redux-thunk源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+  <meta name="description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。">
 <meta name="keywords" content="frontend,source">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redux-thunk源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/04/27/redux_thunk/index.html">
 <meta property="og:site_name" content="juliiii">
-<meta property="og:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+<meta property="og:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。">
 <meta property="og:image" content="https://user-images.githubusercontent.com/23744602/39343507-b5c0655e-4a0f-11e8-92da-420fedfafb7f.png">
-<meta property="og:updated_time" content="2018-04-27T07:17:25.304Z">
+<meta property="og:updated_time" content="2018-04-27T07:35:37.183Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redux-thunk源码解读">
-<meta name="twitter:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+<meta name="twitter:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/23744602/39343507-b5c0655e-4a0f-11e8-92da-420fedfafb7f.png">
   
     <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
@@ -166,7 +166,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。</p>
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。<br><a id="more"></a></p>
 <h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><ul>
 <li><p>小二，上代码！</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> thunk = createThunkMiddleware();</span><br><span class="line">thunk.withExtraArgument = createThunkMiddleware;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> thunk;</span><br></pre></td></tr></table></figure>

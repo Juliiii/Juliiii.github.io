@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>redux源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="背景最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊redux的源码。后续会有redux-thunk和react-redux的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如eventproxy和anywhere。 开始 总览, redux的文件结构    文件看起来貌似不少，其实，要理解redux的内部实现，主要就看 create">
+  <meta name="description" content="背景最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊redux的源码。后续会有redux-thunk和react-redux的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如eventproxy和anywhere。">
 <meta name="keywords" content="frontend,source">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redux源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/04/26/redux/index.html">
 <meta property="og:site_name" content="juliiii">
-<meta property="og:description" content="背景最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊redux的源码。后续会有redux-thunk和react-redux的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如eventproxy和anywhere。 开始 总览, redux的文件结构    文件看起来貌似不少，其实，要理解redux的内部实现，主要就看 create">
+<meta property="og:description" content="背景最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊redux的源码。后续会有redux-thunk和react-redux的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如eventproxy和anywhere。">
 <meta property="og:image" content="https://user-images.githubusercontent.com/23744602/39304912-ef11215e-498d-11e8-8c22-1a629f10724d.png">
-<meta property="og:updated_time" content="2018-04-27T07:17:33.530Z">
+<meta property="og:updated_time" content="2018-04-27T07:35:40.717Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redux源码解读">
-<meta name="twitter:description" content="背景最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊redux的源码。后续会有redux-thunk和react-redux的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如eventproxy和anywhere。 开始 总览, redux的文件结构    文件看起来貌似不少，其实，要理解redux的内部实现，主要就看 create">
+<meta name="twitter:description" content="背景最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊redux的源码。后续会有redux-thunk和react-redux的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如eventproxy和anywhere。">
 <meta name="twitter:image" content="https://user-images.githubusercontent.com/23744602/39304912-ef11215e-498d-11e8-8c22-1a629f10724d.png">
   
     <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
@@ -167,6 +167,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近不想写业务代码了，因为就得去实习了。所以打算开始补补坑。比如自己阅读源码的计划。所以今天来聊聊<a href="https://github.com/reactjs/redux" target="_blank" rel="noopener">redux</a>的源码。后续会有<a href="https://github.com/gaearon/redux-thunk" target="_blank" rel="noopener">redux-thunk</a>和<a href="https://github.com/reactjs/react-redux" target="_blank" rel="noopener">react-redux</a>的源码阅读。搞定这些的话，就开始阅读一个node的库的源码了，比如<a href="https://github.com/JacksonTian/eventproxy" target="_blank" rel="noopener">eventproxy</a>和<a href="https://github.com/JacksonTian/anywhere" target="_blank" rel="noopener">anywhere</a>。</p>
+<a id="more"></a>
 <h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><ul>
 <li><p>总览, redux的文件结构</p>
 <p><img src="https://user-images.githubusercontent.com/23744602/39304912-ef11215e-498d-11e8-8c22-1a629f10724d.png" alt="文件架构"></p>
