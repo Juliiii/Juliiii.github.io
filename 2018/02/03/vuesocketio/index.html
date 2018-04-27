@@ -9,7 +9,7 @@
   <title>Vue-Socket.io源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
-<meta name="keywords" content="source,frontend">
+<meta name="keywords" content="frontend,source">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue-Socket.io源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/02/03/vuesocketio/index.html">
@@ -25,7 +25,7 @@
     <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
   
   
-    <link rel="icon" href="/favicon.png">
+    <link rel="icon" href="https://tvax1.sinaimg.cn/crop.24.32.595.595.180/a0b59701ly8fnfji46jrwj20hs0hsweo.jpg">
   
   <link rel="stylesheet" type="text/css" href="/./main.0cf68a.css">
   <style type="text/css">
@@ -60,8 +60,6 @@
 			<ul>
 			
 				<li><a href="/">主页</a></li>
-	        
-				<li><a href="/tags/随笔/">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -113,8 +111,6 @@
 			
 				
 			
-				
-			
 			
 			
 			<nav class="header-nav">
@@ -135,9 +131,7 @@
 				<ul style="width: 50%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
-		        
-					<li style="width: 50%"><a href="/tags/随笔/">随笔</a></li>
+					<li style="width: 100%"><a href="/">主页</a></li>
 		        
 				</ul>
 			</nav>
@@ -237,11 +231,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">frontend</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">frontend</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
         		</li>
       		
 		</ul>
@@ -451,11 +445,11 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">source</a>
+                <a href="javascript:void(0)" class="js-tag color4">frontend</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">frontend</a>
+                <a href="javascript:void(0)" class="js-tag color2">source</a>
               </li>
             
             <div class="clearfix"></div>
@@ -506,7 +500,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">哇，原来你们会点开这个关于我，嘿嘿。</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">中山大学，软件工程，全栈工程师一枚。</div>
   	  	
     	</section>
     
