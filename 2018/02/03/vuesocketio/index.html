@@ -6,13 +6,13 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Vue-Socket.io源码解读 | Hexo</title>
+  <title>Vue-Socket.io源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue-Socket.io源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/02/03/vuesocketio/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:site_name" content="juliiii">
 <meta property="og:description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/18/160694ab82de4f98?w=398&h=478&f=png&s=35683">
 <meta property="og:updated_time" content="2018-02-03T07:45:08.560Z">
@@ -21,7 +21,7 @@
 <meta name="twitter:description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
 <meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/12/18/160694ab82de4f98?w=398&h=478&f=png&s=35683">
   
-    <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
+    <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
   
   
     <link rel="icon" href="/favicon.png">
@@ -294,6 +294,15 @@
 
   
 <nav id="article-nav">
+  
+    <a href="/2018/04/27/redux/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
     <a href="/2018/02/03/reactcnode/" id="article-nav-older" class="article-nav-link-wrap">

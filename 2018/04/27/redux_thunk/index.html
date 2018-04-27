@@ -6,14 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | juliiii</title>
+  <title>juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+<meta property="og:type" content="article">
 <meta property="og:title" content="juliiii">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/04/27/redux_thunk/index.html">
 <meta property="og:site_name" content="juliiii">
+<meta property="og:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+<meta property="og:image" content="https://user-images.githubusercontent.com/23744602/39343507-b5c0655e-4a0f-11e8-92da-420fedfafb7f.png">
+<meta property="og:updated_time" content="2018-04-27T07:03:52.412Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="juliiii">
+<meta name="twitter:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/23744602/39343507-b5c0655e-4a0f-11e8-92da-420fedfafb7f.png">
   
     <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
   
@@ -145,118 +151,166 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-redux_thunk" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。</p>
+<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><ul>
+<li><p>小二，上代码！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> thunk = createThunkMiddleware();</span><br><span class="line">thunk.withExtraArgument = createThunkMiddleware;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> thunk;</span><br></pre></td></tr></table></figure>
+<p>先看看它的导出，哦，是先执行了<code>createThunkMiddleware</code> 这个函数，得到一个返回值，并将返回值赋值给<code>thunk</code>，并同时将这个函数挂载在<code>thunk</code> 上。最后导出给用户使用。那<code>createThunkMiddleware</code> 就是我们要剖析的核心了。下面为代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createThunkMiddleware</span>(<span class="params">extraArgument</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params">&#123; dispatch, getState &#125;</span>) =&gt;</span> next =&gt; <span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">typeof</span> action === <span class="string">'function'</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> action(dispatch, getState, extraArgument);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> next(action);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个函数，接受<code>extraArgument</code> 作为参数，并返回一个函数，而这个函数就是我们之前聊redux时，说到中间件的写法。就是形如 store =&gt; next =&gt; action =&gt; {}。所以这个函数会返回一个中间件给我们。<strong>而这个中间件，会判断action是不是function，如果是，就传入dispatch，getState等，执行，并返回；如果不是，就过，传给下一个中间件</strong> 。好了，redux-thunk的原理就这么简单。哈哈哈哈哈，额。为了避免有的同学没用过redux-thunk，那下面结合一个例子来讲解为毛<strong>原理就这么简单</strong> 。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">dispatch, getState, userId</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> user = <span class="keyword">await</span> axios.get(<span class="string">`/users/<span class="subst">$&#123;userId&#125;</span>`</span>);</span><br><span class="line">        dispatch(&#123;</span><br><span class="line">            type: <span class="string">'GETUSERINFO_SUCCESS'</span>,</span><br><span class="line">            data: user</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; <span class="keyword">catch</span>(e) &#123;</span><br><span class="line">        dispatch(&#123;</span><br><span class="line">            type: <span class="string">'GETUSERINFO_FAILED'</span>,</span><br><span class="line">            error: e</span><br><span class="line">        &#125;);        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">store.dispatch(getUserInfo);</span><br></pre></td></tr></table></figure>
+<p>​</p>
+<p>redux-thunk的用法，如果我没记错，应该是这么用（毕竟一直用redux-saga），正常的dispatch是接受一个简单对象的。但是redux-thunk允许我们传入一个函数，这个函数就是一个异步操作的函数。redux-thunk检测到是个函数的时候，就会执行该函数。函数会做异步操作。在未来的某个时间点，异步操作完成，会根据成功或者失败，去dispatch不同的action，而这次dispatch的action就是一个正常的action，即为一个简单对象，和正常使用redux的效果是一样的。所以，大家明白了redux的内部原理了吧。</p>
+</li>
+</ul>
+<ul>
+<li><p>那么看了上面，懂得写一个中间件的套路了吗？</p>
+<p>看了redux和redux-thunk的源码后，我个人总结出一个redux的中间件应该具备以下两点</p>
+<ul>
+<li>形如  store =&gt; next =&gt; action =&gt; { };</li>
+<li>{} 这部分要调用 next(action);</li>
+</ul>
+<p>第一点是因为，在redux的applyMiddleware中，对于中间件的处理，是先传入一个middlewareAPI，这个API包含了两样东西，一个是store.getState，一个是增强过的dispatch。然后得到一个形如 next =&gt; action =&gt; {} 的数组。然后对于这个数组，才有compose函数来处理，另其变成 (…args) =&gt; f(g(h(…args)))的一个函数。再然后再传入一个store.dispatch，这个函数就会执行，然后这个数组的函数就会从右往左执行，最后得到第一个action =&gt; {}的函数。当dispatch的时候，这个函数被执行，由于这个函数内调用了 next(action)，所以中间件们就会以一种链式的结构被执行。所以个中间件只要具备以上两点，个人觉得就可以了。举了例子</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> logger = <span class="function"><span class="params">store</span> =&gt;</span> next =&gt; <span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'currentState: '</span>, store.getState());</span><br><span class="line">    <span class="keyword">let</span> result = next(action)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'nextState'</span>, store.getState());</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这就是一个logger的中间件了，咱们看下效果：</p>
+<p><img src="https://user-images.githubusercontent.com/23744602/39343507-b5c0655e-4a0f-11e8-92da-420fedfafb7f.png" alt="logger的demo"></p>
+</li>
+</ul>
+<h4 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h4><p>这次也到这里了，这次篇幅不多，难度不难。大家也可以自行看看源码。老规矩，源码地址：<a href="https://github.com/Juliiii/source-plan" target="_blank" rel="noopener">https://github.com/Juliiii/source-plan</a> <strong>欢迎大家star或者fork</strong> ，<strong>也可以和我讨论学习</strong> 。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/27/redux_thunk/" class="archive-article-date">
-  	<time datetime="2018-04-27T07:03:52.412Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-27</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/04/27/redux_thunk/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/04/27/redux/" class="archive-article-date">
-  	<time datetime="2018-04-27T07:03:52.319Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-04-27</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/03/vuesocketio/" class="archive-article-date">
-  	<time datetime="2018-02-03T07:34:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-03</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/03/vuesocketio/">Vue-Socket.io源码解读</a>
-    </h1>
+  
+    <a href="/2018/04/27/redux/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/03/reactcnode/" class="archive-article-date">
-  	<time datetime="2018-02-03T06:44:40.560Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-03</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/03/reactcnode/">React + Mobx构建React-Cnode</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -279,8 +333,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
