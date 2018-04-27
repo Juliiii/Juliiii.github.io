@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/2 | juliiii</title>
+  <title>React + Mobx构建React-Cnode | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="my blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="juliiii">
-<meta property="og:url" content="http://yoursite.com/archives/2018/02/index.html">
+  <meta name="description" content="背景前一阵子，我刚写了篇React全家桶实战，介绍了下我用react全家桶构建一个react webapp的中遇到的一些问题。后来，我发现了mobx。然后静下心去看一看它的文档。发现很有趣，所以我把这个项目用mobx重构了一次。旧的版本是用react全家桶，就是react+redux构建的, 在github的old-verson的分支上。大家有兴趣也可以看看。 源码地址传送门如果可以，希望大家st">
+<meta name="keywords" content="frontend">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React + Mobx构建React-Cnode">
+<meta property="og:url" content="http://yoursite.com/2017/10/20/reactcnode/index.html">
 <meta property="og:site_name" content="juliiii">
-<meta property="og:description" content="my blog">
+<meta property="og:description" content="背景前一阵子，我刚写了篇React全家桶实战，介绍了下我用react全家桶构建一个react webapp的中遇到的一些问题。后来，我发现了mobx。然后静下心去看一看它的文档。发现很有趣，所以我把这个项目用mobx重构了一次。旧的版本是用react全家桶，就是react+redux构建的, 在github的old-verson的分支上。大家有兴趣也可以看看。 源码地址传送门如果可以，希望大家st">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/10/16/e1e2d85515cb8026c67365c3b94b2932">
+<meta property="og:updated_time" content="2018-04-27T07:18:28.615Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="juliiii">
-<meta name="twitter:description" content="my blog">
+<meta name="twitter:title" content="React + Mobx构建React-Cnode">
+<meta name="twitter:description" content="背景前一阵子，我刚写了篇React全家桶实战，介绍了下我用react全家桶构建一个react webapp的中遇到的一些问题。后来，我发现了mobx。然后静下心去看一看它的文档。发现很有趣，所以我把这个项目用mobx重构了一次。旧的版本是用react全家桶，就是react+redux构建的, 在github的old-verson的分支上。大家有兴趣也可以看看。 源码地址传送门如果可以，希望大家st">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2017/10/16/e1e2d85515cb8026c67365c3b94b2932">
   
     <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
   
@@ -148,44 +152,69 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-reactcnode" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/02/03/vuesocketio/" class="archive-article-date">
-  	<time datetime="2018-02-03T07:34:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-02-03</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/02/03/vuesocketio/">Vue-Socket.io源码解读</a>
+    <h1 class="article-title" itemprop="name">
+      React + Mobx构建React-Cnode
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/10/20/reactcnode/" class="archive-article-date">
+  	<time datetime="2017-10-20T02:24:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>前一阵子，我刚写了篇<a href="http://www.jianshu.com/p/43c604177c08" target="_blank" rel="noopener">React全家桶实战</a>，介绍了下我用react全家桶构建一个react webapp的中遇到的一些问题。后来，我发现了mobx。然后静下心去看一看它的文档。发现很有趣，所以我把这个项目用mobx重构了一次。旧的版本是用react全家桶，就是react+redux构建的, 在github的old-verson的分支上。大家有兴趣也可以看看。</p>
+<h4 id="源码地址"><a href="#源码地址" class="headerlink" title="源码地址"></a>源码地址</h4><p><a href="https://github.com/Juliiii/React-Cnode" target="_blank" rel="noopener">传送门</a><br>如果可以，希望大家star一下，给我点鼓励。感谢~</p>
+<h4 id="开发体会"><a href="#开发体会" class="headerlink" title="开发体会"></a>开发体会</h4><ul>
+<li>首先redux很强大，单项数据流的思想，可以让我们很好地去将数据和UI解耦。我们要修改UI，只能通过发起一个action给reducer，然后reducer经过一系列操作，得出一些新的state,然后这个state便会让UI更新。但是有个比较蛋疼的地方就是，我们要写得太多了，我们最起码要写一个actionType, 一个actionCreator， 一个reducer，当然还得创建一个store。如果有异步操作，那还得写更多一点，这会让我开发起来的时候比较枯燥。不知道你们有没有，反正，我是有时候想到要写那么多东西，我就有点动力不足了。</li>
+<li>其次就是性能优化的问题。就react中每个组件都有一个shouldComponentUpdate的函数，不过它默认总是返回true的。就是无论如何，只要state和props发生了变化，就要发生一次render。但是有时候是不需要更新的。虽然可以引入immutable-js来创建js不可变的数据，加上在shouldComponentUpdate搞点判断。但是，额，好吧，我觉得引入也挺麻烦的，感觉有点难以在现有的项目里插入（大神别喷我~）。</li>
+<li>最后呢，mobx可以比较好解决我上面的两个问题。mobx的写法不难，看一个下午，就可以开始动手写代码了。而且对在原来代码上修改可以比较迅速。因为UI和数据已经解耦了。你只要在store与UI和store的连接部分修改即可。还有就是mobx让你不再使用setState,那你也可以规避setState的异步更新的问题。mobx会检测被观察的数据，只要数据发生改变，它就会去重新渲染UI。当然还有很多很好的地方，每个人理解不一样罢了。这里就不深究mobx。毕竟我也只是处于一个能用的阶段。</li>
+</ul>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p>最后这里展示下demo</p>
+<p><img src="https://user-gold-cdn.xitu.io/2017/10/16/e1e2d85515cb8026c67365c3b94b2932" alt="demo"></p>
+<p>当然还有， 欢迎大家star和fork, <a href="https://github.com/Juliiii/React-Cnode" target="_blank" rel="noopener">传送门</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
-        		</li>
-      		 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">frontend</a>
         		</li>
@@ -193,7 +222,7 @@
 		</ul>
 	</div>
 
-          
+      
 	<div class="article-category tagcloud">
 		<i class="icon-book icon"></i>
 		<ul class="article-tag-list">
@@ -206,17 +235,108 @@
 	</div>
 
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2017/10/20/reactcnode/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2018/02/03/vuesocketio/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Vue-Socket.io源码解读
+        
+      </div>
+    </a>
   
   
-    </div></section>
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -239,8 +359,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

@@ -9,13 +9,14 @@
   <title>redux-thunk源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
+<meta name="keywords" content="source,frontend">
 <meta property="og:type" content="article">
 <meta property="og:title" content="redux-thunk源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/04/27/redux_thunk/index.html">
 <meta property="og:site_name" content="juliiii">
 <meta property="og:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
 <meta property="og:image" content="https://user-images.githubusercontent.com/23744602/39343507-b5c0655e-4a0f-11e8-92da-420fedfafb7f.png">
-<meta property="og:updated_time" content="2018-04-27T07:09:16.000Z">
+<meta property="og:updated_time" content="2018-04-27T07:17:25.304Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="redux-thunk源码解读">
 <meta name="twitter:description" content="背景最近刚把redux的源码阅读放了上来，那么再接再厉，咱们来看个redux中间件的源码，随便学习下怎么写个redux的中间件。额，为了简单点，所以选了redux-thunk。redux-thunk是什么？用过的同学应该知道是，redux处理异步action的一个中间件。然而他的源码也非常简单，不到20行，就完全可以实现处理异步action的需求，再一次感叹大牛的奇思妙想。 开始 小二，上代码！">
@@ -226,7 +227,33 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">frontend</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/tech//" class="article-tag-list-link color5">tech</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -408,6 +435,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">source</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">frontend</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

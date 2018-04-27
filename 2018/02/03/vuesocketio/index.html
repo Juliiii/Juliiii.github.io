@@ -9,13 +9,14 @@
   <title>Vue-Socket.io源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
+<meta name="keywords" content="source,frontend">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue-Socket.io源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/02/03/vuesocketio/index.html">
 <meta property="og:site_name" content="juliiii">
 <meta property="og:description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
 <meta property="og:image" content="https://user-gold-cdn.xitu.io/2017/12/18/160694ab82de4f98?w=398&h=478&f=png&s=35683">
-<meta property="og:updated_time" content="2018-02-03T07:45:08.560Z">
+<meta property="og:updated_time" content="2018-04-27T07:17:37.482Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue-Socket.io源码解读">
 <meta name="twitter:description" content="背景有一个项目，今年12月份开始重构，项目涉及到了socket。但是socket用的是以前一个开发人员封装的包（这个一直被当前的成员吐槽为什么不用已经千锤百炼的轮子）。因此，趁着这个重构的机会，将vue-socket.io引入，后端就用socket.io。我也好奇看了看vue-socket.io的源码（我不会说是因为这个库的文档实在太简略了，我为了稳点去看源码了解该怎么用） 开始 文件架构我们主要">
@@ -231,7 +232,33 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">source</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">frontend</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/tech//" class="article-tag-list-link color5">tech</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
 
       
 
@@ -305,7 +332,7 @@
     </a>
   
   
-    <a href="/2018/02/03/reactcnode/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2017/10/20/reactcnode/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">React + Mobx构建React-Cnode</div>
       <i class="icon-circle-right"></i>
     </a>
@@ -422,6 +449,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">source</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">frontend</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
