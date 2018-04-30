@@ -6,18 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>reselect | juliiii</title>
+  <title>reselect源码解读 | juliiii</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="背景最近偶然想起了reselect这个库，因为面试今日头条的时候，面试官有问到，当时也回答上来了。只是有点好奇这个库是怎么做到记忆，从而达到缓存的。所以打开它的github看了一下，发现代码量不多，而且实现逻辑不难。所以就趁热写下这篇reselect源码阅读。">
 <meta name="keywords" content="frontend,source">
 <meta property="og:type" content="article">
-<meta property="og:title" content="reselect">
+<meta property="og:title" content="reselect源码解读">
 <meta property="og:url" content="http://yoursite.com/2018/04/30/reselect/index.html">
 <meta property="og:site_name" content="juliiii">
 <meta property="og:description" content="背景最近偶然想起了reselect这个库，因为面试今日头条的时候，面试官有问到，当时也回答上来了。只是有点好奇这个库是怎么做到记忆，从而达到缓存的。所以打开它的github看了一下，发现代码量不多，而且实现逻辑不难。所以就趁热写下这篇reselect源码阅读。">
-<meta property="og:updated_time" content="2018-04-30T11:46:44.779Z">
+<meta property="og:updated_time" content="2018-04-30T11:48:06.401Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="reselect">
+<meta name="twitter:title" content="reselect源码解读">
 <meta name="twitter:description" content="背景最近偶然想起了reselect这个库，因为面试今日头条的时候，面试官有问到，当时也回答上来了。只是有点好奇这个库是怎么做到记忆，从而达到缓存的。所以打开它的github看了一下，发现代码量不多，而且实现逻辑不难。所以就趁热写下这篇reselect源码阅读。">
   
     <link rel="alternative" href="/atom.xml" title="juliiii" type="application/atom+xml">
@@ -151,7 +151,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      reselect
+      reselect源码解读
     </h1>
   
 
